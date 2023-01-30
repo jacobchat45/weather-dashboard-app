@@ -28,14 +28,20 @@ function grabWeather(lat, lon){
 }
 // this filters through our response and gets midday results for each 5 day forecast
 function filterForecastObjects(arrayOfObjects){
-  
+  // takes our objects array and cycles through its length
   for(let i = 0; i < arrayOfObjects.length; i++){
+    // assigns a usuable variable to each iteration of the array of objs
     const forecastObject = arrayOfObjects[i];
-    
+    console.log(forecastObject);
+    let forecastTemp = forecastObject.main.temp - 273.15;
+    console.log(forecastTemp);
+    // using moment
     let forecastMoment = moment(forecastObject.dt_txt);
     let forecastDateTime = forecastMoment.format("hA");
     if(forecastDateTime === "12PM"){
+      // only get midday for each remaining 5 day forecast
           renderForecastCard(forecastMoment);
+         
     }
 
 
@@ -45,7 +51,15 @@ function filterForecastObjects(arrayOfObjects){
 let forecastHold = document.querySelector("#forecast");
 // this renders the 5 day forecast, appending the contents
 function renderForecastCard(momentObject){
-       console.log(momentObject.format("ddd"))
+  
+       let formatDate = momentObject.format("ddd");
+       const createDay = document.createElement("div");
+       createDay.innerHTML = formatDate;
+       createDay.setAttribute("class", "col-lg-9");
+       forecastHold.prepend(createDay);
+       // need temp, wind and humidity as a percentage
+       const createTemp = document.createElement("div");
+         
        // create div with text as date
        // append to forecastHold
 
